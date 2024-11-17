@@ -1,0 +1,26 @@
+plugins {
+    id "com.gradleup.shadow" version "8.3.5"
+    id 'java'
+}
+
+group = 'org.grishin'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.javassist:javassist:3.29.0-GA'
+    implementation 'commons-io:commons-io:2.11.0'
+    implementation 'com.google.guava:guava:31.1-jre'
+}
+
+tasks.named('shadowJar', com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {
+    manifest {
+        attributes(
+                'Premain-Class': 'org.grishin.patch.PegaPatchAgent'
+        )
+    }
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA'
+}
